@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ Licensed to the Apache Software Foundation (ASF) under one or more
   ~ contributor license agreements. See the NOTICE file distributed with
@@ -23,6 +24,7 @@
     <relativePath>../</relativePath>
   </parent>
   <artifactId>log4j-core</artifactId>
+  <version>2.14.1-lineaje-01</version>
   <packaging>jar</packaging>
   <name>Apache Log4j Core</name>
   <description>The Apache Log4j Implementation</description>
@@ -32,6 +34,13 @@
     <projectDir>/core</projectDir>
     <maven.doap.skip>true</maven.doap.skip>
     <!--<revapi.skip>true</revapi.skip>-->
+      <woodstox.version>6.2.4</woodstox.version>
+      <pmd.plugin.version>3.10.0</pmd.plugin.version>
+      <changes.plugin.version>2.12.1</changes.plugin.version>
+      <javadoc.plugin.version>3.0.1</javadoc.plugin.version>
+      <checkstyle.plugin.version>3.0.0</checkstyle.plugin.version>
+      <jxr.plugin.version>2.5</jxr.plugin.version>
+      <manifestfile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestfile>
   </properties>
   <dependencies>
     <!-- Naturally, all implementations require the log4j-api JAR -->
@@ -150,7 +159,9 @@
       <artifactId>slf4j-api</artifactId>
       <optional>true</optional>
     </dependency>
+
     <!-- TEST DEPENDENCIES -->
+
     <!-- Pull in useful test classes from API -->
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
@@ -238,7 +249,7 @@
           <groupId>org.apache.geronimo.specs</groupId>
           <artifactId>geronimo-jms_1.1_spec</artifactId>
         </exclusion>
-      </exclusions>
+      </exclusions>    
     </dependency>
     <dependency>
       <groupId>commons-logging</groupId>
@@ -360,7 +371,7 @@
                 <artifactItem>
                   <groupId>org.apache.logging.log4j</groupId>
                   <artifactId>log4j-core-java9</artifactId>
-                  <version>${project.version}</version>
+                  <version>2.14.1</version>
                   <type>zip</type>
                   <overWrite>false</overWrite>
                 </artifactItem>
@@ -454,10 +465,10 @@
                 <manifestFile>${manifestfile}</manifestFile>
                 <manifestEntries>
                   <Specification-Title>${project.name}</Specification-Title>
-                  <Specification-Version>${project.version}</Specification-Version>
+                  <Specification-Version>2.14.1</Specification-Version>
                   <Specification-Vendor>${project.organization.name}</Specification-Vendor>
                   <Implementation-Title>${project.name}</Implementation-Title>
-                  <Implementation-Version>${project.version}</Implementation-Version>
+                  <Implementation-Version>2.14.1</Implementation-Version>
                   <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
                   <Implementation-Vendor-Id>org.apache</Implementation-Vendor-Id>
                   <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
@@ -478,10 +489,10 @@
                 <manifestFile>${manifestfile}</manifestFile>
                 <manifestEntries>
                   <Specification-Title>${project.name}</Specification-Title>
-                  <Specification-Version>${project.version}</Specification-Version>
+                  <Specification-Version>2.14.1</Specification-Version>
                   <Specification-Vendor>${project.organization.name}</Specification-Vendor>
                   <Implementation-Title>${project.name}</Implementation-Title>
-                  <Implementation-Version>${project.version}</Implementation-Version>
+                  <Implementation-Version>2.14.1</Implementation-Version>
                   <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
                   <Implementation-Vendor-Id>org.apache</Implementation-Vendor-Id>
                   <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
@@ -506,26 +517,6 @@
             </Import-Package>
             <Bundle-Activator>org.apache.logging.log4j.core.osgi.Activator</Bundle-Activator>
           </instructions>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-gpg-plugin</artifactId>
-        <version>3.2.4</version>
-        <executions>
-          <execution>
-            <id>sign-artifacts</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>sign</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <gpgArguments>
-            <arg>--pinentry-mode</arg>
-            <arg>loopback</arg>
-          </gpgArguments>
         </configuration>
       </plugin>
     </plugins>
@@ -567,9 +558,9 @@
         <version>${javadoc.plugin.version}</version>
         <configuration>
           <failOnError>false</failOnError>
-          <bottom>&lt;p align="center"&gt;Copyright &amp;#169; {inceptionYear}-{currentYear} {organizationName}. All Rights Reserved.&lt;br /&gt;
+          <bottom><![CDATA[<p align="center">Copyright &#169; {inceptionYear}-{currentYear} {organizationName}. All Rights Reserved.<br />
             Apache Logging, Apache Log4j, Log4j, Apache, the Apache feather logo, the Apache Logging project logo,
-            and the Apache Log4j logo are trademarks of The Apache Software Foundation.&lt;/p&gt;</bottom>
+            and the Apache Log4j logo are trademarks of The Apache Software Foundation.</p>]]></bottom>
           <!-- module link generation is completely broken in the javadoc plugin for a multi-module non-aggregating
                project -->
           <detectOfflineLinks>false</detectOfflineLinks>
@@ -644,17 +635,5 @@
       </plugin>
     </plugins>
   </reporting>
-  <scm>
-    <connection>scm:git:apache-logging-log4j2</connection>
-    <developerConnection>scm:git:apache-logging-log4j2</developerConnection>
-    <url>apache-logging-log4j2</url>
-    <tag>2.14.1-lineaje-01</tag>
-  </scm>
-  <version>2.14.1-lineaje-01</version>
-  <contributors>
-    <contributor>
-      <name>Lineaje DepFixer</name>
-      <email>221268890+Lineaje-DepFixer@users.noreply.github.com</email>
-    </contributor>
-  </contributors>
 </project>
+
