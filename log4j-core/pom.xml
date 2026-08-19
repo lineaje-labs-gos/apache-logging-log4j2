@@ -15,48 +15,37 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
-  <modelVersion>4.0.0</modelVersion>
-
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion> <!-- do_not_remove: published-with-gradle-metadata -->
   <parent>
     <groupId>org.apache.logging.log4j</groupId>
     <artifactId>log4j</artifactId>
-    <version>${revision}</version>
+    <version>2.26.1</version>
     <relativePath>../log4j-parent</relativePath>
   </parent>
-
   <artifactId>log4j-core</artifactId>
-
+  <version>2.26.1-lineaje-01</version>
   <name>Apache Log4j Core</name>
-
   <description>A versatile, industrial-grade, and reference implementation of the Log4j API.
     It bundles a rich set of components to assist various use cases:
     Appenders targeting files, network sockets, databases, SMTP servers;
     Layouts that can render CSV, HTML, JSON, Syslog, etc. formatted outputs;
     Filters that can be configured using log event rates, regular expressions, scripts, time, etc.
     It contains several extension points to introduce custom components, if needed.</description>
-
+  <url>https://logging.apache.org/log4j/2.x/</url>
+  <licenses>
+    <license>
+      <name>Apache-2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
   <properties>
-
-    <!-- Javadoc needs to be generated for this module -->
-    <maven.javadoc.skip>false</maven.javadoc.skip>
-
-    <!-- Tests are located elsewhere, no need to do any processing for the `src/test` directory: -->
     <maven.test.skip>true</maven.test.skip>
-
-    <!-- `log4j-core` plugin descriptor needs to be consumed before other modules' descriptors -->
-    <log4j.docgen.pluginDescriptorsDir>${log4j.docgen.pluginDescriptorsDir.phase1}</log4j.docgen.pluginDescriptorsDir>
-
-    <!--
-      ~ OSGi and JPMS options
-      -->
     <disruptor.support.range>[3.4,5)</disruptor.support.range>
-    <bnd-multi-release>true</bnd-multi-release>
-    <bnd-extra-package-options>
-      <!-- Annotations only -->
-      org.jspecify.*;resolution:=optional,
-      <!-- External optional dependencies -->
+    <bnd-extra-package-options>org.jspecify.*;resolution:=optional,
+      
       com.conversantmedia.util.concurrent;resolution:=optional;
       com.fasterxml.jackson.*;resolution:=optional,
       com.lmax.disruptor.*;version="${disruptor.support.range}";resolution:=optional,
@@ -71,23 +60,23 @@
       org.zeromq;resolution:=optional,
       javax.lang.model.*;resolution:=optional,
       javax.tools;resolution:=optional,
-      <!-- `java.sql`, which depends on `java.logging` is optional -->
+      
       java.sql;resolution:=optional,
       javax.sql;resolution:=optional,
       java.util.logging;resolution:=optional,
-      <!-- `java.management` is optional -->
+      
       java.lang.management;resolution:=optional,
       javax.management.*;resolution:=optional,
-      <!-- `java.naming` is optional -->
-      javax.naming;resolution:=optional
-    </bnd-extra-package-options>
-    <bnd-extra-module-options>
-      <!-- OSGI is optional in JPMS and it shouldn't be transitive either (#1895) -->
-      org.osgi.core;static=true;transitive=false,
-      <!-- BND seems to always add `java.logging` (dependency of `java.sql`) -->
+      
+      javax.naming;resolution:=optional</bnd-extra-package-options>
+    <maven.javadoc.skip>false</maven.javadoc.skip>
+    <log4j.docgen.pluginDescriptorsDir>${log4j.docgen.pluginDescriptorsDir.phase1}</log4j.docgen.pluginDescriptorsDir>
+    <bnd-multi-release>true</bnd-multi-release>
+    <bnd-extra-module-options>org.osgi.core;static=true;transitive=false,
+      
       java.logging;static=true,
       java.sql;static=true,
-      <!-- Remove `transitive` from optional dependencies -->
+      
       com.fasterxml.jackson.annotation;transitive=false,
       com.lmax.disruptor;transitive=false,
       com.fasterxml.jackson.core;transitive=false,
@@ -99,14 +88,59 @@
       org.apache.commons.csv;transitive=false,
       org.jspecify;transitive=false,
       org.zeromq.jeromq;transitive=false,
-      <!-- A module descriptor is only available in version 1.2.16+, hence it is not detected -->
+      
       com.conversantmedia.disruptor;substitute="disruptor";transitive=false;static=true,
-      <!-- Filebased module names: MUST be static -->
+      
       kafka.clients;substitute="kafka-clients";transitive=false;static=true,
       javax.jms.api;substitute="javax.jms-api";transitive=false;static=true,
-      javax.mail.api;substitute="javax.mail-api";transitive=false;static=true
-    </bnd-extra-module-options>
+      javax.mail.api;substitute="javax.mail-api";transitive=false;static=true</bnd-extra-module-options>
   </properties>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.groovy</groupId>
+                <artifactId>groovy-bom</artifactId>
+                <version>${groovy.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson</groupId>
+                <artifactId>jackson-bom</artifactId>
+                <version>${jackson-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.platform</groupId>
+                <artifactId>jakarta.jakartaee-bom</artifactId>
+                <version>${jakartaee-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${junit-jupiter.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-bom</artifactId>
+                <version>${mockito.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>${spring-framework.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
   <dependencies>
     <dependency>
@@ -115,14 +149,12 @@
       <scope>provided</scope>
       <optional>true</optional>
     </dependency>
-    <!-- Used for JMS appenders (needs an implementation of course) -->
     <dependency>
       <groupId>javax.jms</groupId>
       <artifactId>javax.jms-api</artifactId>
       <scope>provided</scope>
       <optional>true</optional>
     </dependency>
-    <!-- Required for SMTPAppender -->
     <dependency>
       <groupId>javax.mail</groupId>
       <artifactId>javax.mail-api</artifactId>
@@ -134,83 +166,62 @@
       <artifactId>jspecify</artifactId>
       <scope>provided</scope>
     </dependency>
-    <!-- Used for OSGi bundle support -->
     <dependency>
       <groupId>org.osgi</groupId>
       <artifactId>org.osgi.core</artifactId>
       <scope>provided</scope>
     </dependency>
-    <!-- Naturally, all implementations require the log4j-api JAR -->
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-api</artifactId>
     </dependency>
-    <!-- Used for compressing to formats other than zip and gz -->
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-compress</artifactId>
       <optional>true</optional>
     </dependency>
-    <!-- Used for the CSV layout -->
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-csv</artifactId>
       <optional>true</optional>
     </dependency>
-    <!-- Alternative implementation of BlockingQueue using Conversant Disruptor for AsyncAppender -->
     <dependency>
       <groupId>com.conversantmedia</groupId>
       <artifactId>disruptor</artifactId>
       <optional>true</optional>
     </dependency>
-    <!-- Required for AsyncLoggers -->
     <dependency>
       <groupId>com.lmax</groupId>
       <artifactId>disruptor</artifactId>
       <optional>true</optional>
     </dependency>
-    <!-- Required for JSON support -->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-core</artifactId>
       <optional>true</optional>
     </dependency>
-    <!-- Required for JSON support -->
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <!-- Required for XML layout and receiver support -->
+    
     <dependency>
       <groupId>com.fasterxml.jackson.dataformat</groupId>
       <artifactId>jackson-dataformat-xml</artifactId>
       <optional>true</optional>
     </dependency>
-    <!-- Required for YAML support (including JSON requirements) -->
     <dependency>
       <groupId>com.fasterxml.jackson.dataformat</groupId>
       <artifactId>jackson-dataformat-yaml</artifactId>
       <optional>true</optional>
     </dependency>
-    <!-- Alternative implementation of BlockingQueue using JCTools for AsyncAppender -->
     <dependency>
       <groupId>org.jctools</groupId>
       <artifactId>jctools-core</artifactId>
       <optional>true</optional>
     </dependency>
-    <!-- Used for ZeroMQ JeroMQ appender -->
     <dependency>
       <groupId>org.zeromq</groupId>
       <artifactId>jeromq</artifactId>
       <optional>true</optional>
     </dependency>
-    <!-- Used for Kafka appender -->
-    <dependency>
-      <groupId>org.apache.kafka</groupId>
-      <artifactId>kafka-clients</artifactId>
-      <optional>true</optional>
-    </dependency>
+    
     <dependency>
       <groupId>com.sun.mail</groupId>
       <artifactId>javax.mail</artifactId>
@@ -222,22 +233,29 @@
       <artifactId>stax2-api</artifactId>
       <optional>true</optional>
     </dependency>
+    <dependency>
+      <groupId>org.apache.kafka</groupId>
+      <artifactId>kafka-clients</artifactId>
+      <version>3.9.2</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.22.2</version>
+    </dependency>
   </dependencies>
-
   <build>
     <plugins>
-
-      <!-- Add Java 9+ code for the MRJ -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
         <executions>
           <execution>
             <id>add-source</id>
+            <phase>generate-sources</phase>
             <goals>
               <goal>add-source</goal>
             </goals>
-            <phase>generate-sources</phase>
             <configuration>
               <sources>
                 <source>${project.build.directory}/log4j-core-java9</source>
@@ -246,23 +264,21 @@
           </execution>
         </executions>
       </plugin>
-
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
           <execution>
             <id>unpack-classes</id>
+            <phase>prepare-package</phase>
             <goals>
               <goal>unpack</goal>
             </goals>
-            <phase>prepare-package</phase>
             <configuration>
               <artifactItems>
                 <artifactItem>
                   <groupId>org.apache.logging.log4j</groupId>
                   <artifactId>log4j-core-java9</artifactId>
-                  <version>${project.version}</version>
+                  <version>2.26.1</version>
                   <type>zip</type>
                   <overWrite>false</overWrite>
                 </artifactItem>
@@ -276,8 +292,6 @@
           </execution>
         </executions>
       </plugin>
-
     </plugins>
   </build>
-
 </project>
